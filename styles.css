@@ -234,6 +234,7 @@ button{font:inherit;color:inherit}
   width:64px;height:64px;display:grid;place-items:center;border:0;border-radius:999px;background:var(--acc);color:var(--on-acc);cursor:pointer;
   box-shadow:0 18px 40px -12px rgba(0,0,0,.75);transition:transform 620ms var(--e),opacity 500ms var(--e),visibility 0s;-webkit-tap-highlight-color:transparent}
 .ast-btn svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.ast-btn .dot{fill:currentColor;stroke-width:1.2}
 @media (hover:hover){.ast-btn:hover{transform:translateY(-3px)}}
 .ast-hint{position:fixed;z-index:30;right:calc(var(--s3) + 80px + env(safe-area-inset-right));bottom:calc(var(--s3) + 14px + env(safe-area-inset-bottom));
   margin:0;padding:10px 18px;border-radius:999px;background:var(--ink);color:var(--bg);font-size:14px;white-space:nowrap;pointer-events:none;

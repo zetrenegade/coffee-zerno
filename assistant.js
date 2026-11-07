@@ -1,10 +1,11 @@
 // ZERNO — ассистент на сайте: кнопка справа внизу → чат.
 // Кнопки-подборщики работают сами по себе; свободные вопросы уходят в ИИ через мини-сервер Cloudflare (ASSISTANT_URL).
 (function () {
-  var ASSISTANT_URL = 'https://zerno-assistant.zetjetsss.workers.dev';   // адрес Cloudflare Worker, например https://zerno-assistant.<имя>.workers.dev
+  var ASSISTANT_URL = 'https://zerno-assistant.zetjetsss.workers.dev';
+  var ASSISTANT_MODEL = '@cf/qwen/qwen3-30b-a3b-fp8';   // быстрая, точная и самая экономная по бесплатному лимиту   // адрес Cloudflare Worker, например https://zerno-assistant.<имя>.workers.dev
 
   var root = document.documentElement;
-  var ICON_CHAT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12.5a7.5 7.5 0 0 1-11.1 6.6L4 20l1-4.3A7.5 7.5 0 1 1 20 12.5Z"/><path d="M9.5 10.5c1.5-1.5 3.5-1.5 5 0M9.5 14c1.5 1.5 3.5 1.5 5 0"/></svg>';
+  var ICON_CHAT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.5 3.5V17A2.5 2.5 0 0 1 4 14.5Z"/><circle cx="8.5" cy="10.5" r=".6" class="dot"/><circle cx="12" cy="10.5" r=".6" class="dot"/><circle cx="15.5" cy="10.5" r=".6" class="dot"/></svg>';
   var ICON_X = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>';
   var ICON_SEND = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 
@@ -138,7 +139,7 @@
       return;
     }
     busy = true; typing(true); setChips([]);
-    fetch(ASSISTANT_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: history }) })
+    fetch(ASSISTANT_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model: ASSISTANT_MODEL, messages: history }) })
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (d) { typing(false); say((d.reply || '').trim() || 'Не расслышал, повторите, пожалуйста.'); setChips(AGAIN); })
       .catch(function () { typing(false); say('Сейчас не получается ответить. Попробуйте кнопки ниже — они работают всегда.'); setChips(S.start[1]); })
