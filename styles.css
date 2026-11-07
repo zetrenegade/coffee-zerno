@@ -45,19 +45,36 @@ button{font:inherit;color:inherit}
 .nav__burger[aria-expanded="true"] span:last-child{top:21px;transform:rotate(-45deg)}
 .sheet{display:none}
 @media (max-width:760px){
-  .sheet{position:fixed;z-index:19;inset:0;display:flex;flex-direction:column;justify-content:space-between;
-    padding:calc(120px + env(safe-area-inset-top)) var(--pad) calc(var(--s5) + env(safe-area-inset-bottom));background:var(--bg);
-    opacity:0;visibility:hidden;transition:opacity 600ms var(--e),visibility 0s linear 600ms}
-  .sheet.is-open{opacity:1;visibility:visible;transition:opacity 600ms var(--e)}
-  .sheet__links{display:flex;flex-direction:column}
-  .sheet__links a{font-family:var(--f-display);font-size:clamp(40px,11vw,60px);line-height:1.2;letter-spacing:-.02em;
-    opacity:0;transform:translateY(20px);transition:opacity 700ms var(--e),transform 700ms var(--e)}
+  .sheet{position:fixed;z-index:19;inset:0;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;
+    padding:calc(104px + env(safe-area-inset-top)) var(--pad) calc(var(--s4) + env(safe-area-inset-bottom));
+    background:radial-gradient(70% 45% at 100% 100%,rgba(150,58,26,.38),rgba(62,21,13,.12) 60%,transparent),var(--bg);
+    clip-path:inset(0 0 100% 0);visibility:hidden;transition:clip-path 800ms var(--e),visibility 0s linear 800ms}
+  .sheet.is-open{clip-path:inset(0);visibility:visible;transition:clip-path 800ms var(--e)}
+  /* то же 3D-зерно, что на первом экране, — в тёплом свете в углу */
+  .sheet__bean{position:absolute;right:-16%;bottom:9%;width:44%;opacity:.9;transform:rotate(18deg) translateY(30px);
+    filter:drop-shadow(0 30px 40px rgba(0,0,0,.6));transition:transform 1200ms var(--e) 200ms}
+  .sheet.is-open .sheet__bean{transform:rotate(8deg)}
+  .sheet__links{position:relative;display:flex;flex-direction:column}
+  .sheet__links a{position:relative;display:grid;grid-template-columns:44px 1fr 22px;align-items:center;padding:16px 0;
+    opacity:0;transform:translateY(16px);transition:opacity 700ms var(--e),transform 700ms var(--e)}
+  .sheet__links a::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:var(--line);transform:scaleX(0);transform-origin:left;transition:transform 900ms var(--e)}
+  .sheet__links a:last-child{border-bottom:1px solid transparent}
+  .sheet__links a:last-child::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--line);transform:scaleX(0);transform-origin:left;transition:transform 900ms var(--e)}
+  .sheet__n{font-family:var(--f-display);font-style:italic;color:var(--acc);font-size:16px;align-self:start;padding-top:6px}
+  .sheet__t{font-family:var(--f-display);font-size:clamp(30px,8.6vw,40px);line-height:1.05;letter-spacing:-.02em}
+  .sheet__t small{display:block;margin-top:6px;font-family:var(--f-body);font-size:13px;letter-spacing:0;opacity:.55}
+  .sheet__links svg{width:20px;height:20px;fill:none;stroke:var(--acc);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
   .sheet.is-open .sheet__links a{opacity:1;transform:none}
-  .sheet.is-open .sheet__links a:nth-child(2){transition-delay:50ms}
-  .sheet.is-open .sheet__links a:nth-child(3){transition-delay:100ms}
-  .sheet.is-open .sheet__links a:nth-child(4){transition-delay:150ms}
-  .sheet.is-open .sheet__links a:nth-child(5){transition-delay:200ms}
-  .sheet__contact{font-size:16px;opacity:.6;line-height:1.7}
+  .sheet.is-open .sheet__links a::before,.sheet.is-open .sheet__links a:last-child::after{transform:scaleX(1)}
+  .sheet.is-open .sheet__links a:nth-child(1){transition-delay:250ms}
+  .sheet.is-open .sheet__links a:nth-child(2){transition-delay:300ms}
+  .sheet.is-open .sheet__links a:nth-child(3){transition-delay:350ms}
+  .sheet.is-open .sheet__links a:nth-child(4){transition-delay:400ms}
+  .sheet.is-open .sheet__links a:nth-child(5){transition-delay:450ms}
+  .sheet__foot{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:var(--s3);font-size:15px;line-height:1.6;
+    opacity:0;transition:opacity 700ms var(--e)}
+  .sheet.is-open .sheet__foot{opacity:1;transition-delay:550ms}
+  .sheet__foot span{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.5;margin-bottom:6px}
 }
 
 /* ---------- кнопки: 2 типа — контур (с наливом) и сплошная ---------- */
