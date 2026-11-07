@@ -1,7 +1,7 @@
 // ZERNO — ассистент на сайте: кнопка справа внизу → чат.
 // Кнопки-подборщики работают сами по себе; свободные вопросы уходят в ИИ через мини-сервер Cloudflare (ASSISTANT_URL).
 (function () {
-  var ASSISTANT_URL = '';   // адрес Cloudflare Worker, например https://zerno-assistant.<имя>.workers.dev
+  var ASSISTANT_URL = 'https://zerno-assistant.zetjetsss.workers.dev';   // адрес Cloudflare Worker, например https://zerno-assistant.<имя>.workers.dev
 
   var root = document.documentElement;
   var ICON_CHAT = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12.5a7.5 7.5 0 0 1-11.1 6.6L4 20l1-4.3A7.5 7.5 0 1 1 20 12.5Z"/><path d="M9.5 10.5c1.5-1.5 3.5-1.5 5 0M9.5 14c1.5 1.5 3.5 1.5 5 0"/></svg>';
