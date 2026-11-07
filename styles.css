@@ -232,7 +232,7 @@ button{font:inherit;color:inherit}
 /* ---------- ассистент ---------- */
 .ast-btn{position:fixed;z-index:30;right:calc(var(--s3) + env(safe-area-inset-right));bottom:calc(var(--s3) + env(safe-area-inset-bottom));
   width:64px;height:64px;display:grid;place-items:center;border:0;border-radius:999px;background:var(--acc);color:var(--on-acc);cursor:pointer;
-  box-shadow:0 18px 40px -12px rgba(0,0,0,.75);transition:transform 620ms var(--e),opacity 500ms var(--e),visibility 0s;-webkit-tap-highlight-color:transparent}
+  transition:transform 620ms var(--e),opacity 500ms var(--e),visibility 0s;-webkit-tap-highlight-color:transparent}
 .ast-btn svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .ast-btn .dot{fill:currentColor;stroke-width:1.2}
 @media (hover:hover){.ast-btn:hover{transform:translateY(-3px)}}
