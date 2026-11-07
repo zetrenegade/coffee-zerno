@@ -45,14 +45,14 @@ button{font:inherit;color:inherit}
 .nav__burger[aria-expanded="true"] span:last-child{top:21px;transform:rotate(-45deg)}
 .sheet{display:none}
 @media (max-width:760px){
-  .sheet{position:fixed;z-index:19;inset:0;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;
-    padding:calc(104px + env(safe-area-inset-top)) var(--pad) calc(var(--s4) + env(safe-area-inset-bottom));
-    background:radial-gradient(70% 45% at 100% 100%,rgba(150,58,26,.38),rgba(62,21,13,.12) 60%,transparent),var(--bg);
-    clip-path:inset(0 0 100% 0);visibility:hidden;transition:clip-path 800ms var(--e),visibility 0s linear 800ms}
-  .sheet.is-open{clip-path:inset(0);visibility:visible;transition:clip-path 800ms var(--e)}
+  .sheet{position:fixed;z-index:19;top:0;left:0;right:0;height:100lvh;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;
+    padding:calc(104px + env(safe-area-inset-top)) var(--pad) calc(var(--s4) + env(safe-area-inset-bottom) + (100lvh - 100svh));
+    background:radial-gradient(80% 40% at 100% 62%,rgba(150,58,26,.34),rgba(62,21,13,.1) 60%,transparent),var(--bg);
+    opacity:0;visibility:hidden;transition:opacity 600ms var(--e),visibility 0s linear 600ms}
+  .sheet.is-open{opacity:1;visibility:visible;transition:opacity 600ms var(--e)}
   /* то же 3D-зерно, что на первом экране, — в тёплом свете в углу */
-  .sheet__bean{position:absolute;right:-16%;bottom:9%;width:44%;opacity:.9;transform:rotate(18deg) translateY(30px);
-    filter:drop-shadow(0 30px 40px rgba(0,0,0,.6));transition:transform 1200ms var(--e) 200ms}
+  .sheet__bean{position:absolute;right:-12%;top:58%;width:34%;opacity:.9;transform:rotate(18deg) translateY(30px);
+    transition:transform 1200ms var(--e) 200ms}
   .sheet.is-open .sheet__bean{transform:rotate(8deg)}
   .sheet__links{position:relative;display:flex;flex-direction:column}
   .sheet__links a{position:relative;display:grid;grid-template-columns:44px 1fr 22px;align-items:center;padding:16px 0;
@@ -74,7 +74,8 @@ button{font:inherit;color:inherit}
   .sheet__foot{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:var(--s3);font-size:15px;line-height:1.6;
     opacity:0;transition:opacity 700ms var(--e)}
   .sheet.is-open .sheet__foot{opacity:1;transition-delay:550ms}
-  .sheet__foot span{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.5;margin-bottom:6px}
+  .sheet__foot p > span{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.5;margin-bottom:6px}
+  .sheet__ask{grid-column:1 / -1;width:100%;min-height:52px;font-size:16px}
 }
 
 /* ---------- кнопки: 2 типа — контур (с наливом) и сплошная ---------- */
@@ -227,6 +228,52 @@ button{font:inherit;color:inherit}
 .foot .foot__mark{font-family:var(--f-display);font-size:min(25vw,560px);line-height:.8;letter-spacing:-.02em;text-align:center;margin:var(--s6) 0 var(--s4);-webkit-user-select:none;user-select:none;white-space:nowrap}
 .foot__bean{display:inline-block;height:.92em;width:auto;margin-left:.02em;vertical-align:-.1em}
 .foot__copy{font-size:13px !important;opacity:.45}
+
+/* ---------- ассистент ---------- */
+.ast-btn{position:fixed;z-index:30;right:calc(var(--s3) + env(safe-area-inset-right));bottom:calc(var(--s3) + env(safe-area-inset-bottom));
+  width:64px;height:64px;display:grid;place-items:center;border:0;border-radius:999px;background:var(--acc);color:var(--on-acc);cursor:pointer;
+  box-shadow:0 18px 40px -12px rgba(0,0,0,.75);transition:transform 620ms var(--e),opacity 500ms var(--e),visibility 0s;-webkit-tap-highlight-color:transparent}
+.ast-btn svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+@media (hover:hover){.ast-btn:hover{transform:translateY(-3px)}}
+.ast-hint{position:fixed;z-index:30;right:calc(var(--s3) + 80px + env(safe-area-inset-right));bottom:calc(var(--s3) + 14px + env(safe-area-inset-bottom));
+  margin:0;padding:10px 18px;border-radius:999px;background:var(--ink);color:var(--bg);font-size:14px;white-space:nowrap;pointer-events:none;
+  opacity:0;transform:translateX(10px);transition:opacity 600ms var(--e),transform 600ms var(--e)}
+.ast-hint.is-shown{opacity:1;transform:none}
+.ast{position:fixed;z-index:29;right:calc(var(--s3) + env(safe-area-inset-right));bottom:calc(var(--s3) + 80px + env(safe-area-inset-bottom));
+  width:min(400px,calc(100vw - 2 * var(--s3)));height:min(600px,calc(100svh - 150px));display:flex;flex-direction:column;
+  background:#15100C;box-shadow:0 40px 100px -20px rgba(0,0,0,.85);
+  opacity:0;visibility:hidden;transform:translateY(16px);transition:opacity 500ms var(--e),transform 600ms var(--e),visibility 0s linear 500ms}
+.ast.is-open{opacity:1;visibility:visible;transform:none;transition:opacity 500ms var(--e),transform 600ms var(--e)}
+.ast__head{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--s2);padding:var(--s3) var(--s3) var(--s2);border-bottom:1px solid var(--line)}
+.ast__title{font-family:var(--f-display);font-size:24px;line-height:1.1;letter-spacing:-.01em}
+.ast__sub{font-size:13px;opacity:.6;margin-top:4px}
+.ast__close{width:44px;height:44px;margin:-8px -10px 0 0;border:0;background:none;color:var(--ink);cursor:pointer;display:grid;place-items:center}
+.ast__close svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round}
+.ast__log{flex:1;overflow-y:auto;padding:var(--s3);display:flex;flex-direction:column;gap:10px;overscroll-behavior:contain}
+.ast__msg{max-width:86%;padding:12px 16px;font-size:15px;line-height:1.5;background:var(--bg-2);animation:ast-in 450ms var(--e) both}
+.ast__msg--me{align-self:flex-end;background:rgba(201,164,106,.18)}
+@keyframes ast-in{from{opacity:0;transform:translateY(8px)}}
+.ast__typing{display:flex;gap:5px;padding:14px 16px;background:var(--bg-2);align-self:flex-start}
+.ast__typing i{width:6px;height:6px;border-radius:999px;background:var(--acc);animation:ast-dot 1200ms var(--e) infinite}
+.ast__typing i:nth-child(2){animation-delay:150ms}.ast__typing i:nth-child(3){animation-delay:300ms}
+@keyframes ast-dot{0%,100%{opacity:.25;transform:none}40%{opacity:1;transform:translateY(-3px)}}
+.ast__chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 var(--s3) var(--s2)}
+.ast__chip{min-height:40px;padding:0 16px;border:0;border-radius:999px;background:transparent;color:var(--ink);font-size:14px;cursor:pointer;
+  box-shadow:inset 0 0 0 1px rgba(201,164,106,.5);transition:box-shadow 400ms var(--e),background-color 400ms var(--e)}
+@media (hover:hover){.ast__chip:hover{background:rgba(201,164,106,.14);box-shadow:inset 0 0 0 1px var(--acc)}}
+.ast__form{display:flex;align-items:center;gap:10px;padding:var(--s2) var(--s3) var(--s3);border-top:1px solid var(--line)}
+.ast__input{flex:1;min-width:0;height:44px;border:0;background:transparent;color:var(--ink);font:16px var(--f-body);outline:none}
+.ast__input::placeholder{color:var(--ink);opacity:.4}
+.ast__send{width:44px;height:44px;flex:none;border:0;border-radius:999px;background:var(--acc);color:var(--on-acc);display:grid;place-items:center;cursor:pointer}
+.ast__send svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+@media (max-width:760px){
+  .ast-btn{opacity:0;visibility:hidden;transform:translateY(20px);transition:transform 620ms var(--e),opacity 500ms var(--e),visibility 0s linear 500ms}
+  .past-hero .ast-btn,.ast-open .ast-btn{opacity:1;visibility:visible;transform:none;transition:transform 620ms var(--e),opacity 500ms var(--e)}
+  .ast-hint{display:none}
+  .ast{right:0;left:0;bottom:0;top:0;width:auto;height:100svh;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+  .ast-open .ast-btn{display:none}
+  .ast-open body{overflow:hidden}
+}
 
 /* ---------- сверхширокие мониторы (21:9): контент не разбегается к краям ---------- */
 .subs,.roast__head,.steps,.about__head,.stats,.foot__cols,.foot__copy{max-width:calc(1720px + 2 * var(--pad));margin-left:auto;margin-right:auto}
