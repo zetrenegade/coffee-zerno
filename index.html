@@ -2,7 +2,8 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0D0A08">
 <title>ZERNO — кофейня и обжарка</title>
 <meta name="description" content="Спешелти-кофейня со своей обжаркой. Варим на зерне не старше 14 дней. Меню, подписка на зерно, как мы обжариваем.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -26,8 +27,20 @@
     <a href="#about">О&nbsp;нас</a>
     <a href="#place">Адрес</a>
   </nav>
-  <a class="nav__mobile rise d-2" href="#menu">Меню</a>
+  <button class="nav__burger rise d-2" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="sheet"><span></span><span></span></button>
 </header>
+
+<!-- мобильное меню на весь экран -->
+<div class="sheet" id="sheet">
+  <nav class="sheet__links" aria-label="Разделы сайта">
+    <a href="#menu">Меню</a>
+    <a href="#subscribe">Подписка</a>
+    <a href="#roast">Обжарка</a>
+    <a href="#about">О&nbsp;нас</a>
+    <a href="#place">Адрес</a>
+  </nav>
+  <p class="sheet__contact">ул.&nbsp;Садовая,&nbsp;14 <br><a href="tel:+79001234567">+7&nbsp;900&nbsp;123-45-67</a></p>
+</div>
 
 <main>
 <!-- ================= Первый экран ================= -->
@@ -215,7 +228,7 @@
     <div class="reveal" data-d="100"><h3>Часы</h3><p>Пн–Пт 8:00–22:00 <br>Сб–Вс 9:00–23:00</p></div>
     <div class="reveal" data-d="200"><h3>Связь</h3><p><a href="tel:+79001234567">+7&nbsp;900&nbsp;123-45-67</a> <br><a href="#place">Telegram</a> / <a href="#place">Instagram</a></p></div>
   </div>
-  <p class="foot__mark" aria-hidden="true">ZERNO</p>
+  <p class="foot__mark" aria-hidden="true">ZERN<img class="foot__bean" src="assets/bean.png" alt="" loading="lazy" decoding="async"></p>
   <p class="foot__copy">© 2026 ZERNO. Концепт-сайт для портфолио.</p>
 </footer>
 

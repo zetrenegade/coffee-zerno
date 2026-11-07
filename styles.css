@@ -27,17 +27,38 @@ button{font:inherit;color:inherit}
 .note{font-size:13px;opacity:.6}
 
 /* ---------- навигация ---------- */
-.nav{position:fixed;z-index:20;inset:0 0 auto 0;display:flex;justify-content:space-between;align-items:center;padding:var(--s3) var(--pad);
+.nav{position:fixed;z-index:20;inset:0 0 auto 0;display:flex;justify-content:space-between;align-items:center;padding:calc(var(--s3) + env(safe-area-inset-top)) var(--pad) var(--s3);
   transition:background-color 500ms var(--e),padding 500ms var(--e),backdrop-filter 500ms var(--e)}
-.nav.is-solid{background:rgba(13,10,8,.86);backdrop-filter:blur(14px);padding-top:var(--s2);padding-bottom:var(--s2)}
+.nav.is-solid{background:rgba(13,10,8,.86);backdrop-filter:blur(14px);padding-top:calc(var(--s2) + env(safe-area-inset-top));padding-bottom:var(--s2)}
 .nav__logo{font-family:var(--f-display);font-size:22px;letter-spacing:.02em;display:flex;flex-direction:column;line-height:1.1;gap:4px}
 .nav__logo span{font-family:var(--f-body);font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.6}
 .nav__links{display:flex;gap:var(--s4);font-size:16px}
-.nav__links a,.nav__mobile{position:relative;opacity:.78;transition:opacity 320ms var(--e)}
+.nav__links a{position:relative;opacity:.78;transition:opacity 320ms var(--e)}
 .nav__links a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform 500ms var(--e)}
 .nav__links a:hover{opacity:1}
 .nav__links a:hover::after{transform:scaleX(1);transform-origin:left}
-.nav__mobile{display:none;min-height:44px;align-items:center;font-size:16px}
+.nav__burger{display:none;position:relative;width:44px;height:44px;margin-right:-10px;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.nav__burger span{position:absolute;left:10px;right:10px;height:1.5px;background:var(--ink);transition:transform 500ms var(--e),top 500ms var(--e)}
+.nav__burger span:first-child{top:17px}
+.nav__burger span:last-child{top:26px}
+.nav__burger[aria-expanded="true"] span:first-child{top:21px;transform:rotate(45deg)}
+.nav__burger[aria-expanded="true"] span:last-child{top:21px;transform:rotate(-45deg)}
+.sheet{display:none}
+@media (max-width:760px){
+  .sheet{position:fixed;z-index:19;inset:0;display:flex;flex-direction:column;justify-content:space-between;
+    padding:calc(120px + env(safe-area-inset-top)) var(--pad) calc(var(--s5) + env(safe-area-inset-bottom));background:var(--bg);
+    opacity:0;visibility:hidden;transition:opacity 600ms var(--e),visibility 0s linear 600ms}
+  .sheet.is-open{opacity:1;visibility:visible;transition:opacity 600ms var(--e)}
+  .sheet__links{display:flex;flex-direction:column}
+  .sheet__links a{font-family:var(--f-display);font-size:clamp(40px,11vw,60px);line-height:1.2;letter-spacing:-.02em;
+    opacity:0;transform:translateY(20px);transition:opacity 700ms var(--e),transform 700ms var(--e)}
+  .sheet.is-open .sheet__links a{opacity:1;transform:none}
+  .sheet.is-open .sheet__links a:nth-child(2){transition-delay:50ms}
+  .sheet.is-open .sheet__links a:nth-child(3){transition-delay:100ms}
+  .sheet.is-open .sheet__links a:nth-child(4){transition-delay:150ms}
+  .sheet.is-open .sheet__links a:nth-child(5){transition-delay:200ms}
+  .sheet__contact{font-size:16px;opacity:.6;line-height:1.7}
+}
 
 /* ---------- кнопки: 2 типа — контур (с наливом) и сплошная ---------- */
 .btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:14px;min-height:60px;padding:0 34px;border-radius:999px;
@@ -105,12 +126,13 @@ button{font:inherit;color:inherit}
 /* ---------- меню ---------- */
 .menu{display:grid;grid-template-columns:42% 1fr;background:var(--bg)}
 .menu__media{position:relative}
-.menu__media img{position:sticky;top:0;width:100%;height:100svh;object-fit:cover}
+.menu__media img{position:sticky;top:0;width:100%;height:100svh;object-fit:cover;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 24%);mask-image:linear-gradient(to bottom,transparent 0,#000 24%)}   /* стык с первым экраном не виден */
 .menu__body{padding:var(--s6) var(--pad) var(--s6) var(--s5);display:flex;flex-direction:column;gap:var(--s4)}
 .tabs{display:flex;flex-wrap:wrap;gap:6px}
 .tabs button{min-height:44px;padding:0 20px;border:0;border-radius:999px;background:transparent;font-size:16px;cursor:pointer;
-  box-shadow:inset 0 0 0 1px var(--line);opacity:.75;transition:opacity 320ms var(--e),background-color 500ms var(--e),color 320ms var(--e),box-shadow 500ms var(--e)}
-.tabs button:hover{opacity:1;box-shadow:inset 0 0 0 1px rgba(201,164,106,.6)}
+  box-shadow:inset 0 0 0 1px var(--line);opacity:.75;-webkit-tap-highlight-color:transparent}
+@media (hover:hover){.tabs button{transition:opacity 320ms var(--e),box-shadow 500ms var(--e)}.tabs button:hover{opacity:1;box-shadow:inset 0 0 0 1px rgba(201,164,106,.6)}}
 .tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg);opacity:1;box-shadow:none}
 .dishes{max-width:640px}
 .dishes[hidden]{display:none !important}   /* иначе display:grid ниже показывает скрытые вкладки */
@@ -122,11 +144,11 @@ button{font:inherit;color:inherit}
   .dishes span{font-size:20px}
 }
 .dishes li{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s3);padding:20px 0;border-top:1px solid var(--line);
-  animation:dish-in 700ms var(--e) both}
+  animation:dish-in 450ms var(--e) both}
 .dishes li:last-child{border-bottom:1px solid var(--line)}
-.dishes li:nth-child(2){animation-delay:50ms}.dishes li:nth-child(3){animation-delay:100ms}
-.dishes li:nth-child(4){animation-delay:150ms}.dishes li:nth-child(5){animation-delay:200ms}.dishes li:nth-child(6){animation-delay:250ms}
-@keyframes dish-in{from{opacity:0;transform:translateY(14px);filter:blur(8px)}}
+.dishes li:nth-child(2){animation-delay:30ms}.dishes li:nth-child(3){animation-delay:60ms}
+.dishes li:nth-child(4){animation-delay:90ms}.dishes li:nth-child(5){animation-delay:120ms}.dishes li:nth-child(6){animation-delay:150ms}
+@keyframes dish-in{from{opacity:0;transform:translateY(10px)}}   /* без blur — на телефоне тормозил */
 .dishes h3{font-family:var(--f-display);font-weight:400;font-size:clamp(22px,1.9vw,30px);line-height:1.05;letter-spacing:-.02em}
 .dishes p{font-size:15px;opacity:.6;margin-top:6px}
 .dishes span{font-size:18px;white-space:nowrap;color:var(--acc)}
@@ -185,7 +207,8 @@ button{font:inherit;color:inherit}
 .foot p{font-size:18px;line-height:1.6}
 .foot a{border-bottom:1px solid transparent;transition:border-color 320ms var(--e),color 320ms var(--e)}
 .foot a:hover{border-color:var(--acc);color:var(--acc)}
-.foot__mark{font-family:var(--f-display);font-size:25vw;line-height:.8;letter-spacing:-.02em;text-align:center;opacity:.1;margin:var(--s5) 0 var(--s3);-webkit-user-select:none;user-select:none}
+.foot .foot__mark{font-family:var(--f-display);font-size:min(25vw,560px);line-height:.8;letter-spacing:-.02em;text-align:center;margin:var(--s6) 0 var(--s4);-webkit-user-select:none;user-select:none;white-space:nowrap}
+.foot__bean{display:inline-block;height:.92em;width:auto;margin-left:.02em;vertical-align:-.1em}
 .foot__copy{font-size:13px !important;opacity:.45}
 
 /* ---------- сверхширокие мониторы (21:9): контент не разбегается к краям ---------- */
@@ -220,7 +243,6 @@ button{font:inherit;color:inherit}
   .nav__links{gap:var(--s3)}
   .steps{grid-template-columns:repeat(2,1fr);row-gap:var(--s5)}
   .plans{grid-template-columns:1fr;max-width:560px;margin:0 auto}
-  .plan--main{order:-1}
   .subs__head,.roast__head{flex-direction:column;align-items:flex-start}
   .subs__head .lead,.roast__head .lead{text-align:left}
 }
@@ -228,13 +250,14 @@ button{font:inherit;color:inherit}
 @media (max-width:760px),(max-aspect-ratio:4/5){
   .hero__name{margin-top:-18svh}
   .name{font-size:min(25vw,40svh)}
+  .name__o{margin-left:.14em}   /* повёрнутое плашмя зерно шире — не задевает N */
   .hero__foot{grid-template-columns:1fr;gap:var(--s3);bottom:calc(var(--s3) + env(safe-area-inset-bottom))}
   .hero__cta{align-items:stretch}
   .hero__cta .note{align-self:center}
 }
 @media (max-width:760px){
   .nav__links{display:none}
-  .nav__mobile{display:inline-flex}
+  .nav__burger{display:block}
   .menu{grid-template-columns:1fr}
   .menu__media img{position:static;height:56svh}
   .menu__body{padding:var(--s5) var(--pad)}

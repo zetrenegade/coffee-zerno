@@ -67,6 +67,20 @@
     update();
   }
 
+  /* мобильное меню (бургер) */
+  var burger = document.querySelector('.nav__burger'), sheet = document.getElementById('sheet');
+  if (burger && sheet) {
+    var setOpen = function (open) {
+      sheet.classList.toggle('is-open', open);
+      burger.setAttribute('aria-expanded', String(open));
+      burger.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
+      document.body.style.overflow = open ? 'hidden' : '';
+    };
+    burger.addEventListener('click', function () { setOpen(!sheet.classList.contains('is-open')); });
+    [].forEach.call(sheet.querySelectorAll('a'), function (el) { el.addEventListener('click', function () { setOpen(false); }); });
+    addEventListener('keydown', function (e) { if (e.key === 'Escape') setOpen(false); });
+  }
+
   /* вкладки меню: клик и стрелки на клавиатуре */
   var tabs = [].slice.call(document.querySelectorAll('[role="tab"]'));
   function select(tab, focus) {
