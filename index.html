@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ZERNO — кофейня и обжарка</title>
+<meta name="description" content="Спешелти-кофейня со своей обжаркой. Варим на зерне не старше 14 дней. Меню, подписка на зерно, как мы обжариваем.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+"three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <a class="nav__logo rise d-1" href="#top">ZERNO<span>кофейня и&nbsp;обжарка</span></a>
+  <nav class="nav__links rise d-2" aria-label="Разделы">
+    <a href="#menu">Меню</a>
+    <a href="#subscribe">Подписка</a>
+    <a href="#roast">Обжарка</a>
+    <a href="#about">О&nbsp;нас</a>
+    <a href="#place">Адрес</a>
+  </nav>
+  <a class="nav__mobile rise d-2" href="#menu">Меню</a>
+</header>
+
+<main>
+<!-- ================= Первый экран ================= -->
+<section class="hero" id="top">
+  <div class="glow rise d-3" aria-hidden="true"></div>
+  <canvas class="layer layer--back rise d-4" aria-hidden="true"></canvas>
+
+  <div class="hero__title">
+    <div class="hero__name">
+      <p class="kicker rise d-3">Обжарено здесь</p>
+      <!-- последняя «O» — пустое место, туда hero3d.js ставит вращающееся 3D-зерно -->
+      <h1 class="name rise d-3" aria-label="ZERNO">ZERN<span class="name__o" aria-hidden="true"></span></h1>
+    </div>
+  </div>
+
+  <div class="shadow rise d-4" aria-hidden="true"></div>
+  <canvas class="fx rise d-4" aria-hidden="true"></canvas>
+  <canvas class="layer layer--mid rise d-4" aria-hidden="true"></canvas>
+  <canvas class="layer layer--front rise d-5" aria-hidden="true"></canvas>
+
+  <div class="hero__foot">
+    <div class="hero__info rise d-5">
+      <p class="hero__lead">Спешелти-кофейня со&nbsp;своей обжаркой. <br>Варим на&nbsp;зерне не&nbsp;старше 14&nbsp;дней.</p>
+      <p class="hero__lot"><span>В&nbsp;воронке сегодня</span>Эфиопия, Иргачеффе, 1950&nbsp;м</p>
+    </div>
+    <div class="hero__cta rise d-6">
+      <a class="btn btn--pour btn--big" href="#menu">
+        <span class="btn__liquid" aria-hidden="true"></span>
+        <span class="btn__label">Посмотреть меню</span>
+        <svg class="btn__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+      </a>
+      <span class="note">Сезонный лот до&nbsp;30&nbsp;ноября</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= Меню ================= -->
+<section class="menu" id="menu">
+  <div class="menu__media" aria-hidden="true">
+    <img src="assets/photo/menu.jpg" alt="" loading="lazy" decoding="async">
+  </div>
+  <div class="menu__body">
+    <h2 class="h2 reveal">Меню</h2>
+    <p class="lead reveal" data-d="100">Каждый день в&nbsp;воронке и&nbsp;в&nbsp;эспрессо&nbsp;— разные лоты. <br>Спросите бариста, что сегодня раскрылось лучше всего.</p>
+
+    <div class="tabs reveal" data-d="200" role="tablist" aria-label="Разделы меню">
+      <button type="button" role="tab" id="t-esp" aria-controls="p-esp" aria-selected="true">Эспрессо</button>
+      <button type="button" role="tab" id="t-alt" aria-controls="p-alt" aria-selected="false" tabindex="-1">Альтернатива</button>
+      <button type="button" role="tab" id="t-non" aria-controls="p-non" aria-selected="false" tabindex="-1">Не&nbsp;кофе</button>
+      <button type="button" role="tab" id="t-des" aria-controls="p-des" aria-selected="false" tabindex="-1">Десерты</button>
+    </div>
+
+    <ul class="dishes" id="p-esp" role="tabpanel" aria-labelledby="t-esp">
+      <li><div><h3>Эспрессо</h3><p>30&nbsp;мл, лот дня</p></div><span>190&nbsp;₽</span></li>
+      <li><div><h3>Американо</h3><p>250&nbsp;мл</p></div><span>230&nbsp;₽</span></li>
+      <li><div><h3>Капучино</h3><p>Двойной эспрессо, 250&nbsp;мл</p></div><span>290&nbsp;₽</span></li>
+      <li><div><h3>Флэт уайт</h3><p>Двойной ристретто, 200&nbsp;мл</p></div><span>310&nbsp;₽</span></li>
+      <li><div><h3>Латте</h3><p>350&nbsp;мл</p></div><span>320&nbsp;₽</span></li>
+      <li><div><h3>Раф ванильный</h3><p>Сливки, ваниль из&nbsp;стручка, 300&nbsp;мл</p></div><span>360&nbsp;₽</span></li>
+    </ul>
+    <ul class="dishes" id="p-alt" role="tabpanel" aria-labelledby="t-alt" hidden>
+      <li><div><h3>Воронка V60</h3><p>Лот дня, 250&nbsp;мл</p></div><span>340&nbsp;₽</span></li>
+      <li><div><h3>Аэропресс</h3><p>200&nbsp;мл</p></div><span>320&nbsp;₽</span></li>
+      <li><div><h3>Кемекс на&nbsp;двоих</h3><p>500&nbsp;мл</p></div><span>560&nbsp;₽</span></li>
+      <li><div><h3>Колд брю</h3><p>18&nbsp;часов настаивания, 300&nbsp;мл</p></div><span>330&nbsp;₽</span></li>
+      <li><div><h3>Эспрессо-тоник</h3><p>300&nbsp;мл</p></div><span>350&nbsp;₽</span></li>
+    </ul>
+    <ul class="dishes" id="p-non" role="tabpanel" aria-labelledby="t-non" hidden>
+      <li><div><h3>Матча латте</h3><p>Церемониальная матча, 300&nbsp;мл</p></div><span>370&nbsp;₽</span></li>
+      <li><div><h3>Какао на&nbsp;молоке</h3><p>300&nbsp;мл</p></div><span>290&nbsp;₽</span></li>
+      <li><div><h3>Молочный улун</h3><p>Чайник 500&nbsp;мл</p></div><span>390&nbsp;₽</span></li>
+      <li><div><h3>Цитрусовый лимонад</h3><p>400&nbsp;мл</p></div><span>320&nbsp;₽</span></li>
+    </ul>
+    <ul class="dishes" id="p-des" role="tabpanel" aria-labelledby="t-des" hidden>
+      <li><div><h3>Баскский чизкейк</h3><p>Печём каждое утро</p></div><span>330&nbsp;₽</span></li>
+      <li><div><h3>Канеле</h3><p>Ром, ваниль, карамельная корочка</p></div><span>190&nbsp;₽</span></li>
+      <li><div><h3>Круассан</h3><p>На&nbsp;сливочном масле 82%</p></div><span>220&nbsp;₽</span></li>
+      <li><div><h3>Морковный торт</h3><p>Крем-чиз, грецкий орех</p></div><span>350&nbsp;₽</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= Подписка ================= -->
+<section class="subs" id="subscribe">
+  <div class="subs__head">
+    <h2 class="h2 reveal">Подписка <br>на&nbsp;зерно</h2>
+    <p class="lead reveal" data-d="100">Привозим свежую обжарку раз в&nbsp;месяц&nbsp;— на&nbsp;7-й день, <br>когда зерно отдохнуло и&nbsp;готово раскрыться.</p>
+  </div>
+
+  <div class="plans">
+    <article class="plan reveal">
+      <span class="plan__num">01</span>
+      <h3 class="plan__name">Соло</h3>
+      <p class="plan__price">1&nbsp;290&nbsp;₽ <span>в&nbsp;месяц</span></p>
+      <ul class="plan__list">
+        <li>1&nbsp;пачка 250&nbsp;г</li>
+        <li>Лот месяца под фильтр или&nbsp;эспрессо</li>
+        <li>Карточка лота: ферма, высота,&nbsp;ноты</li>
+        <li>Доставка по&nbsp;городу бесплатно</li>
+      </ul>
+      <a class="btn btn--line" href="#place"><span class="btn__label">Выбрать «Соло»</span><svg class="btn__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+    </article>
+
+    <article class="plan plan--main reveal" data-d="100">
+      <span class="plan__num">02</span>
+      <span class="plan__badge">Выбирают чаще всего</span>
+      <h3 class="plan__name">Доппио</h3>
+      <p class="plan__price">2&nbsp;390&nbsp;₽ <span>в&nbsp;месяц</span></p>
+      <ul class="plan__list">
+        <li>2&nbsp;пачки по&nbsp;250&nbsp;г</li>
+        <li>Один лот под эспрессо, второй под&nbsp;фильтр</li>
+        <li>Привозим на&nbsp;7-й день после&nbsp;обжарки</li>
+        <li>Скидка 10% на&nbsp;напитки в&nbsp;кофейне</li>
+      </ul>
+      <a class="btn btn--pour" href="#place">
+        <span class="btn__liquid" aria-hidden="true"></span>
+        <span class="btn__label">Оформить подписку</span>
+        <svg class="btn__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+      </a>
+      <span class="note">Пауза и&nbsp;отмена в&nbsp;любой момент</span>
+    </article>
+
+    <article class="plan reveal" data-d="200">
+      <span class="plan__num">03</span>
+      <h3 class="plan__name">Триппло</h3>
+      <p class="plan__price">3&nbsp;690&nbsp;₽ <span>в&nbsp;месяц</span></p>
+      <ul class="plan__list">
+        <li>2&nbsp;пачки и&nbsp;микролот 100&nbsp;г</li>
+        <li>Редкие лоты от&nbsp;88&nbsp;баллов</li>
+        <li>Ранний доступ к&nbsp;новому урожаю</li>
+        <li>Каппинг для двоих раз в&nbsp;сезон</li>
+      </ul>
+      <a class="btn btn--line" href="#place"><span class="btn__label">Выбрать «Триппло»</span><svg class="btn__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+    </article>
+  </div>
+</section>
+
+<!-- ================= Обжарка ================= -->
+<section class="roast" id="roast">
+  <div class="roast__head">
+    <h2 class="h2 reveal">Как мы <br>обжариваем</h2>
+    <p class="lead reveal" data-d="100">Жарим сами, маленькими партиями, <br>и&nbsp;знаем каждую чашку от&nbsp;фермы до&nbsp;бариста.</p>
+  </div>
+  <div class="roast__media reveal" data-parallax>
+    <img src="assets/photo/roast.jpg" alt="Обжарщик выгружает зерно из&nbsp;ростера в&nbsp;охлаждающий лоток" loading="lazy" decoding="async">
+  </div>
+  <ol class="steps">
+    <li class="step reveal"><span class="step__n">01</span><h3>Зелёное зерно</h3><p>Берём микролоты напрямую у&nbsp;ферм Эфиопии, Колумбии и&nbsp;Кении. Только зерно от&nbsp;85&nbsp;баллов по&nbsp;шкале SCA.</p></li>
+    <li class="step reveal" data-d="100"><span class="step__n">02</span><h3>Обжарка</h3><p>Партиями по&nbsp;5&nbsp;кг прямо в&nbsp;зале. Для каждого лота свой профиль, чтобы раскрыть его, а&nbsp;не&nbsp;пережечь.</p></li>
+    <li class="step reveal" data-d="200"><span class="step__n">03</span><h3>Отдых</h3><p>Минимум 5&nbsp;дней зерно отдыхает и&nbsp;отдаёт углекислый газ. Без этого вкус выходит резким и&nbsp;пустым.</p></li>
+    <li class="step reveal" data-d="300"><span class="step__n">04</span><h3>Чашка</h3><p>С&nbsp;5-го по&nbsp;14-й день у&nbsp;зерна лучшее окно вкуса. Всё, что старше, в&nbsp;чашку не&nbsp;попадает.</p></li>
+  </ol>
+</section>
+
+<!-- ================= О нас ================= -->
+<section class="about" id="about">
+  <div class="about__head">
+    <h2 class="h2 reveal">О&nbsp;нас</h2>
+    <div class="about__text">
+      <p class="lead reveal" data-d="100">ZERNO&nbsp;— небольшая кофейня с&nbsp;ростером прямо в&nbsp;зале. Мы&nbsp;обжариваем сами, поэтому знаем каждый лот по&nbsp;имени: откуда он, как рос и&nbsp;каким должен быть в&nbsp;чашке.</p>
+      <p class="lead reveal" data-d="200">Двенадцать мест, большой общий стол и&nbsp;тихие утра. Заходите за&nbsp;чашкой или за&nbsp;пачкой зерна домой.</p>
+    </div>
+  </div>
+  <dl class="stats">
+    <div class="stat reveal"><dt><span class="stat__v">12</span></dt><dd>лотов за&nbsp;год</dd></div>
+    <div class="stat reveal" data-d="100"><dt><span class="stat__v">5</span>&nbsp;кг</dt><dd>одна партия обжарки</dd></div>
+    <div class="stat reveal" data-d="200"><dt><span class="stat__v">14</span>&nbsp;дней</dt><dd>самое старое зерно в&nbsp;чашке</dd></div>
+  </dl>
+  <blockquote class="quote reveal">
+    <p>«Хороший кофе не&nbsp;терпит спешки. <br>Поэтому мы&nbsp;не&nbsp;торопим <br>ни&nbsp;обжарку, ни&nbsp;зерно, ни&nbsp;вас».</p>
+    <footer>Илья, основатель и&nbsp;обжарщик ZERNO</footer>
+  </blockquote>
+  <div class="gallery">
+    <figure class="reveal" data-parallax><img src="assets/photo/about-1.jpg" alt="Длинный диван и&nbsp;деревянные столы вдоль стены" loading="lazy" decoding="async"></figure>
+    <figure class="reveal" data-d="100" data-parallax><img src="assets/photo/about-2.jpg" alt="Зал с&nbsp;мягкими креслами и&nbsp;высокими окнами" loading="lazy" decoding="async"></figure>
+    <figure class="reveal" data-d="200" data-parallax><img src="assets/photo/about-3.jpg" alt="Кофемашина у&nbsp;стены с&nbsp;меню на&nbsp;доске" loading="lazy" decoding="async"></figure>
+  </div>
+</section>
+</main>
+
+<!-- ================= Адрес ================= -->
+<footer class="foot" id="place">
+  <div class="foot__cols">
+    <div class="reveal"><h3>Адрес</h3><p>ул.&nbsp;Садовая,&nbsp;14 <br>вход со&nbsp;двора</p></div>
+    <div class="reveal" data-d="100"><h3>Часы</h3><p>Пн–Пт 8:00–22:00 <br>Сб–Вс 9:00–23:00</p></div>
+    <div class="reveal" data-d="200"><h3>Связь</h3><p><a href="tel:+79001234567">+7&nbsp;900&nbsp;123-45-67</a> <br><a href="#place">Telegram</a> / <a href="#place">Instagram</a></p></div>
+  </div>
+  <p class="foot__mark" aria-hidden="true">ZERNO</p>
+  <p class="foot__copy">© 2026 ZERNO. Концепт-сайт для портфолио.</p>
+</footer>
+
+<script src="hero3d.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

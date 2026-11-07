@@ -1,0 +1,259 @@
+/* ZERNO — кофейня и обжарка.
+   Токены: Playfair Display 400 (+ курсив) / Jost 400–500; фон #0D0A08, текст #EFE6D8, латунь #C9A46A;
+   одна кривая cubic-bezier(.22,1,.36,1); радиусы 0 / 999px; шкала 8/16/24/40/64/104/168. */
+:root{
+  --bg:#0D0A08; --bg-2:#17110D; --ink:#EFE6D8; --acc:#C9A46A; --on-acc:#0D0A08;
+  --line:rgba(239,230,216,.12);
+  --f-display:'Playfair Display',Georgia,serif; --f-body:'Jost',system-ui,sans-serif;
+  --e:cubic-bezier(.22,1,.36,1);
+  --pad:clamp(20px,4.2vw,72px);
+  --s1:8px; --s2:16px; --s3:24px; --s4:40px; --s5:64px; --s6:104px; --s7:168px;
+  --bx:50vw; --by:50svh; --br:220px;          /* позиция главного зерна — пишет hero3d.js */
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+html,body{margin:0;background:var(--bg);color:var(--ink)}
+body{font-family:var(--f-body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%;pointer-events:none}
+h1,h2,h3,p,ul,ol,dl,dd,figure{margin:0;padding:0}
+ul,ol{list-style:none}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--acc);outline-offset:4px}
+
+.h2{font-family:var(--f-display);font-weight:400;font-size:clamp(2.8rem,6.4vw,6.4rem);line-height:.95;letter-spacing:-.03em;text-wrap:balance;hyphens:none}
+.lead{font-size:clamp(16px,1.15vw,19px);line-height:1.6;opacity:.75;max-width:52ch;text-wrap:pretty}
+.note{font-size:13px;opacity:.6}
+
+/* ---------- навигация ---------- */
+.nav{position:fixed;z-index:20;inset:0 0 auto 0;display:flex;justify-content:space-between;align-items:center;padding:var(--s3) var(--pad);
+  transition:background-color 500ms var(--e),padding 500ms var(--e),backdrop-filter 500ms var(--e)}
+.nav.is-solid{background:rgba(13,10,8,.86);backdrop-filter:blur(14px);padding-top:var(--s2);padding-bottom:var(--s2)}
+.nav__logo{font-family:var(--f-display);font-size:22px;letter-spacing:.02em;display:flex;flex-direction:column;line-height:1.1;gap:4px}
+.nav__logo span{font-family:var(--f-body);font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.6}
+.nav__links{display:flex;gap:var(--s4);font-size:16px}
+.nav__links a,.nav__mobile{position:relative;opacity:.78;transition:opacity 320ms var(--e)}
+.nav__links a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform 500ms var(--e)}
+.nav__links a:hover{opacity:1}
+.nav__links a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav__mobile{display:none;min-height:44px;align-items:center;font-size:16px}
+
+/* ---------- кнопки: 2 типа — контур (с наливом) и сплошная ---------- */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:14px;min-height:60px;padding:0 34px;border-radius:999px;
+  font:500 17px var(--f-body);letter-spacing:.01em;overflow:hidden;isolation:isolate;cursor:pointer}
+.btn__label{position:relative;z-index:2}
+.btn--big{min-height:clamp(64px,4.4vw,80px);padding:0 clamp(40px,2.6vw,56px);font-size:clamp(18px,1.15vw,22px)}
+.btn--big .btn__arrow{width:20px;height:20px}
+.btn__arrow{position:relative;z-index:2;width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform 520ms var(--e)}
+.btn:hover .btn__arrow,.btn:focus-visible .btn__arrow{transform:rotate(45deg)}
+/* блик: полоса света по латуни */
+.btn::after{content:"";position:absolute;z-index:1;top:0;bottom:0;left:-60%;width:42%;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,246,226,.5) 50%,transparent);transform:skewX(-20deg)}
+.btn:hover::after,.btn:focus-visible::after{transform:skewX(-20deg) translateX(470%);transition:transform 1700ms var(--e) 650ms}
+
+/* «Налив»: контурная кнопка, снизу поднимается кофейная пенка, потом по ней пробегает блик */
+.btn--pour{color:var(--ink);box-shadow:inset 0 0 0 1px rgba(201,164,106,.7);transition:color 420ms var(--e) 260ms}
+.btn__liquid{position:absolute;inset:-2px;z-index:0;
+  background:linear-gradient(to top,#8C683A 0%,#B28C55 40%,#C9A46A 72%,#DDC291 100%);
+  transform:translateY(calc(100% + 14px));transition:transform 1300ms var(--e)}
+.btn__liquid::before{content:"";position:absolute;left:0;bottom:calc(100% - 1px);width:200%;height:6px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 56 6' preserveAspectRatio='none'%3E%3Cpath d='M0 3C7 3 7 0 14 0S21 3 28 3S35 0 42 0S49 3 56 3V6H0Z' fill='%23DDC291'/%3E%3C/svg%3E") repeat-x 0 0/56px 6px;
+  animation:crema 2.8s linear infinite}
+@keyframes crema{to{transform:translateX(-56px)}}
+.btn--pour:hover,.btn--pour:focus-visible{color:var(--on-acc)}
+.btn--pour:hover .btn__liquid,.btn--pour:focus-visible .btn__liquid{transform:translateY(0)}
+
+.btn--line{color:var(--ink);box-shadow:inset 0 0 0 1px rgba(239,230,216,.26);transition:box-shadow 500ms var(--e)}
+.btn--line::after{background:linear-gradient(100deg,transparent,rgba(201,164,106,.28) 50%,transparent)}
+.btn--line:hover::after,.btn--line:focus-visible::after{transition-delay:0ms}
+.btn--line:hover{box-shadow:inset 0 0 0 1px rgba(201,164,106,.8)}
+.btn--line:hover .btn__arrow{transform:translate(3px,-3px)}
+
+/* ---------- первый экран ---------- */
+.hero{position:relative;height:100svh;min-height:640px;overflow:hidden;isolation:isolate}
+.hero::after{content:"";position:absolute;inset:0;z-index:9;pointer-events:none;opacity:.06;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.glow{position:absolute;z-index:0;left:var(--bx);top:var(--by);width:calc(var(--br) * 5.6);aspect-ratio:1;translate:-50% -50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(150,58,26,.55),rgba(78,26,13,.38) 45%,rgba(62,21,13,.12) 72%,transparent)}
+.layer,.fx{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+.layer--back{z-index:0}
+.hero__title{z-index:1}
+.shadow,.fx,.layer--mid{z-index:2}
+.layer--front{z-index:3}
+.hero__foot{z-index:4}
+
+/* как в референсе с COFFEE: огромное название, зерно перекрывает середину (букву R) */
+.hero__title{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:0 var(--pad);pointer-events:none;-webkit-user-select:none;user-select:none}
+.hero__name{display:flex;flex-direction:column;align-items:flex-start;margin-top:-4svh}
+.kicker{font-family:var(--f-display);font-style:italic;color:var(--acc);font-size:clamp(1.5rem,2.4vw,3.4rem);line-height:1;letter-spacing:-.01em;margin:0 0 .3em .08em}
+.name{font-family:var(--f-display);font-weight:400;font-size:min(24vw,58svh);line-height:.8;letter-spacing:-.02em;white-space:nowrap;hyphens:none}
+/* место под букву O: ровно высота заглавных и ширина «O» Playfair — сюда встаёт 3D-зерно */
+.name__o{display:inline-block;width:.8em;height:.708em;margin-left:.02em}
+
+.shadow{position:absolute;left:var(--bx);top:calc(var(--by) + var(--br) * 1.16);width:calc(var(--br) * 1.5);height:calc(var(--br) * .5);translate:-50% -50%;
+  background:radial-gradient(rgba(0,0,0,.75),transparent 65%);filter:blur(18px);pointer-events:none;transform:scaleY(.4) scale(var(--sh,1));opacity:var(--sho,.9)}
+
+.hero__foot{position:absolute;left:0;right:0;bottom:calc(var(--s4) + env(safe-area-inset-bottom));
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:var(--s4)}
+.hero__info{display:flex;flex-direction:column;gap:var(--s2)}
+.hero__lead{font-size:clamp(15px,1.05vw,20px);line-height:1.6;opacity:.8;text-wrap:pretty}
+.hero__lot{font-family:var(--f-display);font-size:clamp(18px,1.3vw,26px);line-height:1.2}
+.hero__lot span{display:block;font-family:var(--f-body);font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.55;margin-bottom:6px}
+.hero__cta{display:flex;flex-direction:column;align-items:center;gap:12px}
+
+/* ---------- меню ---------- */
+.menu{display:grid;grid-template-columns:42% 1fr;background:var(--bg)}
+.menu__media{position:relative}
+.menu__media img{position:sticky;top:0;width:100%;height:100svh;object-fit:cover}
+.menu__body{padding:var(--s6) var(--pad) var(--s6) var(--s5);display:flex;flex-direction:column;gap:var(--s4)}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tabs button{min-height:44px;padding:0 20px;border:0;border-radius:999px;background:transparent;font-size:16px;cursor:pointer;
+  box-shadow:inset 0 0 0 1px var(--line);opacity:.75;transition:opacity 320ms var(--e),background-color 500ms var(--e),color 320ms var(--e),box-shadow 500ms var(--e)}
+.tabs button:hover{opacity:1;box-shadow:inset 0 0 0 1px rgba(201,164,106,.6)}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg);opacity:1;box-shadow:none}
+.dishes{max-width:640px}
+.dishes[hidden]{display:none !important}   /* иначе display:grid ниже показывает скрытые вкладки */
+@media (min-width:1700px){
+  .dishes{max-width:none;display:grid;grid-template-columns:1fr 1fr;column-gap:var(--s5)}
+  .dishes li:nth-last-child(2):nth-child(odd){border-bottom:1px solid var(--line)}
+  .menu__body{padding-left:var(--s6);padding-right:var(--s6)}
+  .dishes h3{font-size:34px}
+  .dishes span{font-size:20px}
+}
+.dishes li{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s3);padding:20px 0;border-top:1px solid var(--line);
+  animation:dish-in 700ms var(--e) both}
+.dishes li:last-child{border-bottom:1px solid var(--line)}
+.dishes li:nth-child(2){animation-delay:50ms}.dishes li:nth-child(3){animation-delay:100ms}
+.dishes li:nth-child(4){animation-delay:150ms}.dishes li:nth-child(5){animation-delay:200ms}.dishes li:nth-child(6){animation-delay:250ms}
+@keyframes dish-in{from{opacity:0;transform:translateY(14px);filter:blur(8px)}}
+.dishes h3{font-family:var(--f-display);font-weight:400;font-size:clamp(22px,1.9vw,30px);line-height:1.05;letter-spacing:-.02em}
+.dishes p{font-size:15px;opacity:.6;margin-top:6px}
+.dishes span{font-size:18px;white-space:nowrap;color:var(--acc)}
+
+/* ---------- подписка ---------- */
+.subs{padding:var(--s7) var(--pad) var(--s6)}
+.subs__head,.roast__head{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--s4);margin-bottom:var(--s5)}
+.subs__head .lead,.roast__head .lead{text-align:right}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;align-items:end}
+.plan{position:relative;display:flex;flex-direction:column;gap:var(--s3);padding:var(--s4) var(--s4) var(--s4);background:var(--bg-2)}
+.plan--main{padding-top:var(--s5);padding-bottom:var(--s5);background:#1F1711}
+.plan--main::before{content:"";position:absolute;inset:0 0 auto 0;height:1px;background:var(--acc)}
+.plan__num{font-family:var(--f-display);font-style:italic;color:var(--acc);font-size:20px}
+.plan__badge{position:absolute;top:var(--s5);right:var(--s4);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--acc)}
+.plan__name{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,2.6vw,40px);line-height:1;letter-spacing:-.02em}
+.plan__price{font-family:var(--f-display);font-size:clamp(34px,3.2vw,48px);line-height:1;letter-spacing:-.02em}
+.plan__price span{font-family:var(--f-body);font-size:15px;letter-spacing:0;opacity:.6}
+.plan__list li{padding:12px 0;border-top:1px solid var(--line);font-size:16px;opacity:.82}
+.plan .btn{margin-top:var(--s2)}
+.plan--main .note{align-self:center;margin-top:-8px}
+
+/* ---------- обжарка ---------- */
+.roast{padding:var(--s6) 0}
+.roast__head{padding:0 var(--pad)}
+.roast__media{height:min(78svh,820px);overflow:hidden}
+.roast__media{position:relative}
+.roast__media img{width:100%;height:100%;object-fit:cover;object-position:50% 45%;transform:scale(1.08);transition:transform 1800ms var(--e)}
+.roast__media.is-in img{transform:none}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s4);padding:var(--s5) var(--pad) 0}
+.step{border-top:1px solid var(--line);padding-top:var(--s3)}
+.step__n{display:block;font-family:var(--f-display);font-style:italic;color:var(--acc);font-size:clamp(40px,4vw,64px);line-height:1;margin-bottom:var(--s3)}
+.step h3{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,2vw,32px);line-height:1.05;letter-spacing:-.02em;margin-bottom:12px}
+.step p{font-size:16px;opacity:.7;max-width:34ch;text-wrap:pretty}
+
+/* ---------- о нас ---------- */
+.about{padding:var(--s6) 0 var(--s5)}
+.about__head{display:grid;grid-template-columns:1fr 1fr;gap:var(--s5);padding:0 var(--pad);align-items:start}
+.about__text{display:flex;flex-direction:column;gap:var(--s3)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4);padding:var(--s5) var(--pad)}
+.stat{border-top:1px solid var(--line);padding-top:var(--s3)}
+.stat dt{font-family:var(--f-display);font-size:clamp(48px,6vw,96px);line-height:1;letter-spacing:-.03em}
+.stat dd{margin-top:10px;font-size:15px;opacity:.6}
+.quote{margin:0 auto;padding:var(--s5) var(--pad) var(--s6);text-align:center}
+.quote p{font-family:var(--f-display);font-style:italic;font-size:clamp(2rem,4vw,4.6rem);line-height:1.1;letter-spacing:-.02em;text-wrap:balance}
+.quote footer{margin-top:var(--s4);font-size:14px;letter-spacing:.2em;text-transform:uppercase;color:var(--acc)}
+.gallery{display:flex;gap:6px;height:min(72svh,760px)}
+.gallery figure{position:relative;overflow:hidden;flex:1.25 1 0;min-width:0;transition:flex-grow 900ms var(--e)}
+.gallery figure:nth-child(2){flex-grow:.8}
+/* «Гармошка»: фото под курсором раздвигает соседей и становится шире */
+@media (hover:hover){
+  .gallery:hover figure{flex-grow:.7}
+  .gallery figure:hover{flex-grow:2.1}
+}
+.gallery img{width:100%;height:100%;object-fit:cover}
+/* Параллакс при прокрутке: кадр выше рамки на 16% и едет медленнее страницы (сдвиг пишет script.js) */
+[data-parallax] img{height:116%;margin-top:-8%;translate:0 var(--py,0px);will-change:translate}
+
+/* ---------- подвал ---------- */
+.foot{padding:var(--s6) var(--pad) var(--s4);border-top:1px solid var(--line);overflow:hidden}
+.foot__cols{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s4)}
+.foot h3{font-size:12px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;opacity:.55;margin-bottom:12px}
+.foot p{font-size:18px;line-height:1.6}
+.foot a{border-bottom:1px solid transparent;transition:border-color 320ms var(--e),color 320ms var(--e)}
+.foot a:hover{border-color:var(--acc);color:var(--acc)}
+.foot__mark{font-family:var(--f-display);font-size:25vw;line-height:.8;letter-spacing:-.02em;text-align:center;opacity:.1;margin:var(--s5) 0 var(--s3);-webkit-user-select:none;user-select:none}
+.foot__copy{font-size:13px !important;opacity:.45}
+
+/* ---------- сверхширокие мониторы (21:9): контент не разбегается к краям ---------- */
+.subs,.roast__head,.steps,.about__head,.stats,.foot__cols,.foot__copy{max-width:calc(1720px + 2 * var(--pad));margin-left:auto;margin-right:auto}
+.subs__head,.plans{max-width:1720px;margin-left:auto;margin-right:auto}
+.hero__foot{max-width:calc(1720px + 2 * var(--pad));margin:0 auto;padding:0 var(--pad)}
+.quote{max-width:1400px}
+
+/* ---------- появление ---------- */
+.rise{opacity:0;transform:translateY(28px);filter:blur(14px)}
+.is-in .rise{opacity:1;transform:none;filter:blur(0);
+  transition:opacity 900ms var(--e) var(--d,0ms),transform 900ms var(--e) var(--d,0ms),filter 900ms var(--e) var(--d,0ms)}
+.layer.rise,.fx.rise,.glow.rise{transform:scale(.94)}
+.is-in .layer.rise,.is-in .fx.rise,.is-in .glow.rise{transform:none;transition-duration:1400ms}
+.is-in .layer--back.rise{filter:blur(5px)}
+.is-in .layer--front.rise{filter:blur(11px)}
+.d-1{--d:300ms}.d-2{--d:420ms}.d-3{--d:900ms}.d-4{--d:1000ms}.d-5{--d:1100ms}.d-6{--d:1200ms}
+
+.reveal{opacity:0;transform:translateY(28px);filter:blur(14px);
+  transition:opacity 900ms var(--e) var(--d,0ms),transform 900ms var(--e) var(--d,0ms),filter 900ms var(--e) var(--d,0ms)}
+.reveal.is-in{opacity:1;transform:none;filter:blur(0)}
+.roast__media.reveal{transform:none;filter:none}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rise,.reveal{--d:0ms!important}
+  .btn__liquid::before{animation:none}
+}
+
+/* ---------- планшет ---------- */
+@media (max-width:1100px){
+  .nav__links{gap:var(--s3)}
+  .steps{grid-template-columns:repeat(2,1fr);row-gap:var(--s5)}
+  .plans{grid-template-columns:1fr;max-width:560px;margin:0 auto}
+  .plan--main{order:-1}
+  .subs__head,.roast__head{flex-direction:column;align-items:flex-start}
+  .subs__head .lead,.roast__head .lead{text-align:left}
+}
+/* узкие и высокие окна (телефон, а также высокий узкий браузер на ПК) */
+@media (max-width:760px),(max-aspect-ratio:4/5){
+  .hero__name{margin-top:-18svh}
+  .name{font-size:min(25vw,40svh)}
+  .hero__foot{grid-template-columns:1fr;gap:var(--s3);bottom:calc(var(--s3) + env(safe-area-inset-bottom))}
+  .hero__cta{align-items:stretch}
+  .hero__cta .note{align-self:center}
+}
+@media (max-width:760px){
+  .nav__links{display:none}
+  .nav__mobile{display:inline-flex}
+  .menu{grid-template-columns:1fr}
+  .menu__media img{position:static;height:56svh}
+  .menu__body{padding:var(--s5) var(--pad)}
+  .dishes h3{font-size:22px}
+  .subs{padding:var(--s6) var(--pad) var(--s5)}
+  .h2 br{display:none}
+  .lead br{display:none}
+  .steps{grid-template-columns:1fr;gap:var(--s4)}
+  .about__head{grid-template-columns:1fr;gap:var(--s3)}
+  .stats{grid-template-columns:1fr;gap:var(--s3)}
+  .gallery{flex-wrap:wrap;height:auto}
+  .gallery figure,.gallery figure:nth-child(2){flex:1 1 40%;height:44svh}
+  .gallery figure:first-child{flex-basis:100%}
+  .foot__cols{grid-template-columns:1fr;gap:var(--s4)}
+  .btn{width:100%}
+}
